@@ -47,7 +47,12 @@ class Quiz {
     }
 
     averageDifficulty(){
-
-    }
-}
-
+        const totalValue = this.questions.reduce((accumulator, question) => accumulator + question.difficulty, 0);
+        /*
+        const totalValue = this.questions.reduce((accumulator, question) => {
+                return accumulator + question.difficulty;
+            }, 0);
+      */  
+        return totalValue / this.questions.length;
+    };
+};
