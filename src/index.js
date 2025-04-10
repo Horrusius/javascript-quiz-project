@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /************  TIMER  ************/
 
   let timer;
-
+  runTimer(quiz);
 
   /************  EVENT LISTENERS  ************/
 
@@ -92,7 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const question = quiz.getQuestion();
     // Shuffle the choices of the current question by calling the method 'shuffleChoices()' on the question object
     question.shuffleChoices();
-
 
 
     // YOUR CODE HERE:
@@ -201,6 +200,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 3. Update the result container (div#result) inner text to show the number of correct answers out of total questions
     resultContainer.innerText = `You scored ${quiz.correctAnswers} out of ${questions.length} correct answers!`; // This value is hardcoded as a placeholder
+  
+    clearInterval(timer);
+    quiz.timeRemaining = quiz.timeLimit;
   }
 
   function resetButtonHandler() {
@@ -213,7 +215,30 @@ document.addEventListener("DOMContentLoaded", () => {
     quiz.correctAnswers = 0;
     quiz.shuffleQuestions();
     showQuestion();
+    runTimer(quiz);
+  }
+
+  
+  
+  function runTimer(quiz) {
+    console.log(quiz.timeRemaining);
+
+    timer = setInterval(function () {
+      quiz.timeRemaining--;
+      console.log(quiz.timeRemaining);
+
+      const minutes = Math.floor(quiz.timeRemaining / 60).toString().padStart(2, "0");
+      const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
+      timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+
+      if (quiz.timeRemaining <= 0) {
+        clearInterval(timer);
+        showResults(quiz);
+      }
+    }, 1000);
+    
 
   }
 
+  
 });

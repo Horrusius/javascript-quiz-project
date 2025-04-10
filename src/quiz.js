@@ -55,4 +55,7 @@ class Quiz {
       */  
         return totalValue / this.questions.length;
     };
+
+    runTimer(){}
+
 };
